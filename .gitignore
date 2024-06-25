@@ -1,0 +1,9 @@
+*.env
+*.json
+*.cfg
+bin/
+include/
+lib/
+lib64/
+\validSentence.py
+\webHook2.py
