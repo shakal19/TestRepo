@@ -4,13 +4,18 @@ import os
 
 
 def configure():
+    """ starts load_dotenv() function
+    """
     load_dotenv()
 
 
 def WebHook(url):
+    """
+        sends picture through discord webhook
+    """
 
-    for i in range(1, 3):
-        with open(f"slika{i}.jpg", "rb") as f:
+    for i in range(1, 3): 
+        with open(f"picture{i}.ext", "rb") as f: # put your picture name here
             file = {'file': f}
             response = requests.post(url,files= file)
             if response.status_code != 200:
