@@ -1,16 +1,28 @@
+import logging.config
 import os
 import sys
 import logging
 import requests
 from dotenv import load_dotenv
 
-logging.basicConfig(
-    filename="app.log",
-    filemode="a",
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%d - %b - %y %H:%M:%S",
-    level=logging.ERROR,
-)
+
+
+logging.config.fileConfig("logging_config.ini")
+logger = logging.getLogger("my_logger")
+
+
+class StreamToLogger:
+    def __init__(self, logger, log_level):
+        self.logger = logger  
+        self.log_level = log_level 
+        self.linebuf = ""  
+
+    def write(self, buf):
+        for line in buf.rstrip().splitlines():
+            self.logger.log(self.log_level, line.rstrip())
+
+    def flush(self):
+        pass
 
 
 def configure():
@@ -23,28 +35,17 @@ def WebHook(url: str):
     Sends picture through discord webhook.
     url (str) - url of your discord webhook
     """
-    sys.stderr = open("app.log", "a")
-    sys.stdout = open("app.log", "a")
+   
 
     for i in range(1, 4):
         try:
             with open(f"slika{i}.jpg", "rb") as f:
                 file = {"file": f}
                 response = requests.post(url, files=file)
-                if response.status_code != 200:
-                    sys.stderr.write(
-                        f"Failed to send file slika{i}.jpg. HTTP status code: {response.status_code}\n"
-                    )
-                else:
-                    sys.stdout.write(f"Successfully sent file slika{i}.jpg.\n")
+                
         except FileNotFoundError:
             sys.stderr.write(f"File slika{i}.jpg not found\n")
-            sys.stdout.write(f"File slika{i}.jpg not found\n")
-        except Exception as e:
-            logging.error("An error occurred", exc_info=True)
-
-    sys.stderr.close()
-    sys.stdout.close()
+        
 
 
 def main():
@@ -54,6 +55,9 @@ def main():
         ValueError: Raises valueError exception when token_id or channel id is None.
     """
     configure()
+
+    sys.stdout = StreamToLogger(logger,logging.INFO)
+    sys.stderr = StreamToLogger(logger,logging.ERROR)
 
     channel_id = os.getenv("webhook_id")
     token_id = os.getenv("webhook_token")
