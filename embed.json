@@ -1,13 +1,13 @@
 {
     "username": "Webhook",
-    "avatar_url": "https://i.imgur.com/4M34hi2.png",
+    "avatar_url": "your picture here...",
     "content": "Text message. Up to 2000 characters.",
     "embeds": [
       {
         "author": {
-          "name": "Birdie♫",
-          "url": "https://www.reddit.com/r/cats/",
-          "icon_url": "https://i.imgur.com/R66g1Pe.jpg"
+          "name": "Name",
+          "url": "your link here",
+          "icon_url": "icon url here..."
         },
         "title": "Title",
         "url": "https://google.com/",
@@ -21,7 +21,7 @@
           },
           {
             "name": "Even more text",
-            "value": "Yup",
+            "value": "some value",
             "inline": true
           },
           {
@@ -41,7 +41,7 @@
         },
         "footer": {
           "text": "Woah! So cool! :smirk:",
-          "icon_url": "https://i.imgur.com/fKL31aD.jpg"
+          "icon_url": "icon url here"
         }
       }
     ]
