@@ -1,5 +1,6 @@
 *.env
 *.cfg
+embed.json
 bin/
 include/
 lib/
